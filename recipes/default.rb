@@ -33,7 +33,6 @@ include_recipe 'erlang'
 ##      the service but rabbitmqctl can't find the existing one and the
 ##      restart (& your Chef run) noisily fail.
 
-<<<<<<< HEAD
 if node['rabbitmq']['logdir']
   directory node['rabbitmq']['logdir'] do
     owner 'rabbitmq'
