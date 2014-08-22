@@ -79,8 +79,6 @@ end
 ## Install the package
 case node['platform_family']
 when 'debian'
-  # installs the required setsid command -- should be there by default but just in case
-  package 'util-linux'
   # logrotate is a package dependency of rabbitmq-server
   package 'logrotate'
 
@@ -127,17 +125,8 @@ when 'debian'
     end
   end
 
-  ## You'll see setsid used in all the init statements in this cookbook. This
-  ## is because there is a problem with the stock init script in the RabbitMQ
-  ## debian package (at least in 2.8.2) that makes it not daemonize properly
-  ## when called from chef. The setsid command forces the subprocess into a state
-  ## where it can daemonize properly. -Kevin (thanks to Daniel DeLeo for the help)
   if node['rabbitmq']['job_control'] == 'initd'
     service node['rabbitmq']['service_name'] do
-      start_command 'setsid /etc/init.d/rabbitmq-server start'
-      stop_command 'setsid /etc/init.d/rabbitmq-server stop'
-      restart_command 'setsid /etc/init.d/rabbitmq-server restart'
-      status_command 'setsid /etc/init.d/rabbitmq-server status'
       supports :status => true, :restart => true
       action [:enable, :start]
     end
@@ -209,7 +198,6 @@ if node['rabbitmq']['cluster'] && (node['rabbitmq']['erlang_cookie'] != existing
     owner 'rabbitmq'
     group 'rabbitmq'
     mode 00400
-    notifies :stop, "service[#{node['rabbitmq']['service_name']}]", :immediately
     notifies :start, "service[#{node['rabbitmq']['service_name']}]", :immediately
     notifies :run, 'execute[reset-node]', :immediately
   end
