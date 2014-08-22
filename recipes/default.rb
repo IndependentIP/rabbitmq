@@ -126,6 +126,14 @@ when 'debian'
   end
 
   if node['rabbitmq']['job_control'] == 'initd'
+    ## This is temporary hack to deal with the bug that the service resource not restarted properly on chef 11.12.X.
+    ## It's strange that just removing 'quiet' option in the original init script fixed the problem.
+    ## Should follow up on the opscode ticket system.[robert]
+    cookbook_file "/etc/init.d/rabbitmq-server" do
+      source "rabbitmq-init-script"
+      mode 0755
+    end
+
     service node['rabbitmq']['service_name'] do
       supports :status => true, :restart => true
       action [:enable, :start]
