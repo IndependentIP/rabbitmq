@@ -172,8 +172,11 @@ else
 end
 
 if node['rabbitmq']['cluster'] && (node['rabbitmq']['erlang_cookie'] != existing_erlang_key)
-  log "stop #{node['rabbitmq']['serice_name']} to change erlang cookie" do
-    notifies :stop, "service[#{node['rabbitmq']['service_name']}]", :immediately
+  service "stop #{node['rabbitmq']['serice_name']} to change erlang cookie" do
+    service_name node['rabbitmq']['service_name']
+    pattern node['rabbitmq']['service_name']
+    only_if { File.exists?("/etc/init.d/#{node.rabbitmq.service_name}") }
+    action :stop
   end
 
   template node['rabbitmq']['erlang_cookie_path'] do
