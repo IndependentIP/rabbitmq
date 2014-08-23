@@ -4,7 +4,7 @@
 
 [
   {kernel, [
-<%= @kernel %> 
+<%= @kernel %>
   ]},
 <% if node['rabbitmq']['web_console_ssl'] -%>
   {rabbitmq_management, [
@@ -23,8 +23,8 @@
 <% end %>
 <% if node['rabbitmq']['ssl'] -%>
     {ssl_listeners, [<%= node['rabbitmq']['ssl_port'] %>]},
-    {ssl_options, [{cacertfile,"<%= node['rabbitmq']['ssl_cacert'] %>"},
-                    {certfile,"<%= node['rabbitmq']['ssl_cert'] %>"},
+    {ssl_options, [<% if node['rabbitmq']['ssl_cacert'] %>{cacertfile,"<%= node['rabbitmq']['ssl_cacert'] %>"},
+                    <% end %>{certfile,"<%= node['rabbitmq']['ssl_cert'] %>"},
                     {keyfile,"<%= node['rabbitmq']['ssl_key'] %>"},
                     {verify,<%= node['rabbitmq']['ssl_verify'] %>},
                     {fail_if_no_peer_cert,<%= node['rabbitmq']['ssl_fail_if_no_peer_cert'] %>}]},

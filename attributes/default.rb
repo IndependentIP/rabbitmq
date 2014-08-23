@@ -49,9 +49,9 @@ default['rabbitmq']['job_control'] = 'initd'
 # ssl
 default['rabbitmq']['ssl'] = false
 default['rabbitmq']['ssl_port'] = 5671
-default['rabbitmq']['ssl_cacert'] = '/path/to/cacert.pem'
-default['rabbitmq']['ssl_cert'] = '/path/to/cert.pem'
-default['rabbitmq']['ssl_key'] = '/path/to/key.pem'
+default['rabbitmq']['ssl_cacert'] = nil
+default['rabbitmq']['ssl_cert'] = nil
+default['rabbitmq']['ssl_key'] = nil
 default['rabbitmq']['ssl_verify'] = 'verify_none'
 default['rabbitmq']['ssl_fail_if_no_peer_cert'] = false
 default['rabbitmq']['web_console_ssl'] = false
