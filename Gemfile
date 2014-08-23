@@ -16,6 +16,7 @@ group :kitchen_common do
 end
 
 group :kitchen_vagrant do
+  gem "vagrant-wrapper"
   gem 'kitchen-vagrant', '~> 0.11'
 end
 
@@ -25,6 +26,7 @@ group :kitchen_cloud do
 end
 
 group :development do
+  gem "hashie", '= 2.1.1'
   gem 'ruby_gntp'
   gem 'growl'
   gem 'rb-fsevent'
